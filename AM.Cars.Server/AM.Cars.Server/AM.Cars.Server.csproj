@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middlewares\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AM.Cars.Server.Infrustructure.Database\AM.Cars.Server.Infrustructure.Database.csproj" />
     <ProjectReference Include="..\AM.Cars.Server.Infrustructure\AM.Cars.Server.Infrustructure.csproj" />
   </ItemGroup>

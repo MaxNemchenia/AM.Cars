@@ -1,5 +1,6 @@
 using AM.Cars.Server.Infrustructure.Database.Extensions;
 using AM.Cars.Server.Infrustructure.Extensions;
+using AM.Cars.Server.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,5 +31,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRouting();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.Run();

@@ -24,7 +24,7 @@ public class CarService : ICarService
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<CarDto>> GetAllCars()
+    public async Task<IEnumerable<CarDto>> GetAllAsync()
     {
         var cars = _carRepository.QueryAsNoTracking();
 
@@ -41,13 +41,13 @@ public class CarService : ICarService
     }
 
     /// <inheritdoc />
-    public async Task<CarDto> GetCarById(long id)
+    public async Task<CarDto> GetAsync(long id)
     {
         var car = await _carRepository.ReadAsNoTrackingAsync(id);
 
         if (car == default)
         {
-            throw new ArgumentException("Car not found");
+            return default;
         }
 
         var carDto = _mapper.Map<CarDto>(car);
@@ -57,7 +57,7 @@ public class CarService : ICarService
     }
 
     /// <inheritdoc />
-    public async Task AddCar(CarDto carDto)
+    public async Task CreateAsync(CarDto carDto)
     {
         var car = _mapper.Map<Car>(carDto);
 
@@ -78,14 +78,14 @@ public class CarService : ICarService
     }
 
     /// <inheritdoc />
-    public async Task UpdateCar(CarDto carDto)
+    public async Task UpdateAsync(CarDto carDto)
     {
         var car = _mapper.Map<Car>(carDto);
         var oldCar = await _carRepository.ReadAsNoTrackingAsync(car.Id);
 
         if (oldCar == default)
         {
-            throw new InvalidOperationException("Car already hasn't existed");
+            throw new InvalidOperationException("Car not existed");
         }
 
         try
@@ -108,7 +108,7 @@ public class CarService : ICarService
     }
 
     /// <inheritdoc />
-    public async Task DeleteCar(long id)
+    public async Task DeleteAsync(long id)
     {
         var car = await _carRepository.ReadAsync(id);
 
@@ -122,7 +122,7 @@ public class CarService : ICarService
     }
 
     /// <inheritdoc />
-    public async Task DeleteCars(IEnumerable<long> ids)
+    public async Task DeleteAsync(IEnumerable<long> ids)
     {
         var cars = _carRepository.Query().Where(c => ids.Contains(c.Id));
 
