@@ -43,11 +43,11 @@ public class ImageUtility : IImageUtility
 
     private static string GenerateFilePath(string fileName)
     {
-        var volumePath = Environment.GetEnvironmentVariable("DOCKER_VOLUME_PATH");
+        var volumePath = Environment.GetEnvironmentVariable("VOLUME_PATH");
 
         if (string.IsNullOrEmpty(volumePath))
         {
-            throw new InvalidOperationException("DOCKER_VOLUME_PATH environment variable is not set.");
+            throw new InvalidOperationException("VOLUME_PATH environment variable is not set.");
         }
 
         return Path.Combine(volumePath, fileName);
