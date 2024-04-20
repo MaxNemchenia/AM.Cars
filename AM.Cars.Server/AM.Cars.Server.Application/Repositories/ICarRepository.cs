@@ -18,6 +18,19 @@ public interface ICarRepository
     Task<Car?> ReadAsync(long id);
 
     /// <summary>
+    /// Get a queryable collection of patients AsNoTracking.
+    /// </summary>
+    /// <returns>A queryable collection of patients.</returns>
+    IQueryable<Car> QueryAsNoTracking();
+
+    /// <summary>
+    /// Get a car by its unique identifier AsNoTracking asynchronously.
+    /// </summary>
+    /// <param name="id">The unique identifier of the car.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation that retrieves the car.</returns>
+    Task<Car?> ReadAsNoTrackingAsync(long id);
+
+    /// <summary>
     /// Add a new car to the database asynchronously.
     /// </summary>
     /// <param name="car">The car to be added.</param>
@@ -32,16 +45,16 @@ public interface ICarRepository
     Task UpdateAsync(Car car);
 
     /// <summary>
-    /// Delete an existing car from the database asynchronously using its ID.
+    /// Delete an existing car from the database asynchronously.
     /// </summary>
-    /// <param name="id">The ID of the car to be deleted.</param>
+    /// <param name="car">The car to be deleted.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation of deleting the car.</returns>
-    Task DeleteAsync(long id);
+    Task DeleteAsync(Car car);
 
     /// <summary>
-    /// Delete existing cars from the database asynchronously using their IDs.
+    /// Delete existing cars from the database asynchronously.
     /// </summary>
-    /// <param name="ids">The IDs of the cars to be deleted.</param>
+    /// <param name="ids">The cars to be deleted.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation of deleting the cars.</returns>
-    Task DeleteAsync(IEnumerable<long> ids);
+    Task DeleteAsync(IEnumerable<Car> cars);
 }

@@ -1,4 +1,5 @@
 using AM.Cars.Server.Infrustructure.Database.Extensions;
+using AM.Cars.Server.Infrustructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrustructureDatabaseBuilders();
 builder.Services.AddConfigDbContext();
 builder.Services.AddRepositories();
+builder.Services.AddAutoMapperProfiles();
+builder.Services.AddInfrustructureUtilities();
+builder.Services.AddInfrustructureServices();
+builder.Services.AddValidators();
 
 builder.Services.AddControllers();
 
