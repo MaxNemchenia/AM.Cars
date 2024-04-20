@@ -7,7 +7,8 @@ public class Car
     public long Id { get; set; }
 
     [Required]
-    public string FileName { get; set; }
+    [MaxLength(255)]
+    public string Name { get; set; }
 
     [Required]
     public string ImagePath { get; set; }

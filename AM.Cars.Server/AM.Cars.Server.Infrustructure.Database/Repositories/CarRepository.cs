@@ -18,7 +18,15 @@ public class CarRepository : ICarRepository
 
     /// <inheritdoc/>
     public Task<Car?> ReadAsync(long id)
-        => _dbContext.Cars.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+        => Query().FirstOrDefaultAsync(c => c.Id == id); 
+
+    /// <inheritdoc/>
+    public IQueryable<Car> QueryAsNoTracking()
+        => _dbContext.Cars.AsNoTracking().AsQueryable();
+
+    /// <inheritdoc/>
+    public Task<Car?> ReadAsNoTrackingAsync(long id)
+        => QueryAsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
 
     /// <inheritdoc/>
     public async Task AddAsync(Car car)
@@ -35,21 +43,15 @@ public class CarRepository : ICarRepository
     }
 
     /// <inheritdoc/>
-    public async Task DeleteAsync(long id)
+    public async Task DeleteAsync(Car car)
     {
-        var car = await _dbContext.Cars.FirstOrDefaultAsync(c => c.Id == id);
-
-        if (car != null)
-        {
-            _dbContext.Cars.Remove(car);
-            await _dbContext.SaveChangesAsync();
-        }
+        _dbContext.Cars.Remove(car);
+        await _dbContext.SaveChangesAsync();
     }
 
     /// <inheritdoc/>
-    public async Task DeleteAsync(IEnumerable<long> ids)
+    public async Task DeleteAsync(IEnumerable<Car> cars)
     {
-        var cars = _dbContext.Cars.Where(c => ids.Contains(c.Id));
         _dbContext.Cars.RemoveRange(cars);
         await _dbContext.SaveChangesAsync();
     }
