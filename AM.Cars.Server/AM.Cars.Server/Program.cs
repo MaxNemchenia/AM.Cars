@@ -1,4 +1,11 @@
+using AM.Cars.Server.Infrustructure.Database.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddInfrustructureDatabaseBuilders();
+builder.Services.AddConfigDbContext();
+builder.Services.AddRepositories();
 
 builder.Services.AddControllers();
 

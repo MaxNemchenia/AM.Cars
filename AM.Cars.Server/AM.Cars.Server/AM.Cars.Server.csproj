@@ -17,4 +17,8 @@
     <Folder Include="Middlewares\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Cars.Server.Infrustructure.Database\AM.Cars.Server.Infrustructure.Database.csproj" />
+  </ItemGroup>
+
 </Project>
