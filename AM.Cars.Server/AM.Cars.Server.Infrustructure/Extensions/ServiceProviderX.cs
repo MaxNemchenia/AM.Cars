@@ -52,6 +52,7 @@ public static class ServiceProviderX
     /// <param name="services">The service collection to which validators will be added.</param>
     public static void AddValidators(this IServiceCollection services)
     {
+        services.AddValidatorsFromAssemblyContaining<CarPostDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<CarDtoValidator>();
         services.AddFluentValidationAutoValidation();
         services.AddFluentValidationClientsideAdapters();
