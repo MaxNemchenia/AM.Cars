@@ -1,5 +1,4 @@
-﻿using AM.Cars.Server.Domain.Entities;
-using AM.Cars.Server.Infrustructure.Dtos;
+﻿using AM.Cars.Server.Infrustructure.Dtos;
 using AM.Cars.Server.Infrustructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +23,7 @@ public class CarController : ControllerBase
             return NotFound();
         }
 
-        return Ok();
+        return Ok(cars);
     }
 
     [HttpGet("{id}")]
@@ -41,7 +40,7 @@ public class CarController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCar([FromBody] CarDto car)
+    public async Task<IActionResult> CreateCar([FromBody] CarPostDto car)
     {
         await _carService.CreateAsync(car);
 

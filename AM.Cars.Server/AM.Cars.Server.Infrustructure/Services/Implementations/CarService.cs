@@ -57,7 +57,7 @@ public class CarService : ICarService
     }
 
     /// <inheritdoc />
-    public async Task CreateAsync(CarDto carDto)
+    public async Task CreateAsync(CarPostDto carDto)
     {
         var car = _mapper.Map<Car>(carDto);
 
