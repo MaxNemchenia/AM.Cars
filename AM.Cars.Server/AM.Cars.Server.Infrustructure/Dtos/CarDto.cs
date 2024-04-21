@@ -1,15 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace AM.Cars.Server.Infrustructure.Dtos;
 
-namespace AM.Cars.Server.Infrustructure.Dtos;
-
-public class CarDto
+public class CarDto : CarPostDto
 {
+    /// <summary>
+    /// Gets or sets the id of the car.
+    /// </summary>
     public long Id { get; set; }
-
-    public string Name { get; set; }
-
-    public byte[] Image { get; set; }
-
-    [JsonIgnore]
-    public string ImagePath { get; set; }
 }

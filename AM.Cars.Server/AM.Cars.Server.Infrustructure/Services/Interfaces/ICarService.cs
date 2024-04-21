@@ -20,8 +20,8 @@ public interface ICarService
     /// <summary>
     /// Create a new car to the system with the associated image.
     /// </summary>
-    /// <param name="carDto">The car DTO to be created.</param>
-    Task CreateAsync(CarDto carDto);
+    /// <param name="CarPostDto">The car DTO to be created.</param>
+    Task CreateAsync(CarPostDto carDto);
 
     /// <summary>
     /// Update an existing car in the system with the associated image.
