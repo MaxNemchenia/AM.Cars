@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Cars.Server", "AM.Cars.Server\AM.Cars.Server.csproj", "{479E4E90-7DCD-4920-8447-D08673538FFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Cars.Server", "AM.Cars.Server\AM.Cars.Server.csproj", "{479E4E90-7DCD-4920-8447-D08673538FFD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{2A9191EA-2C8B-4085-9163-7ACC45CCA54D}"
 EndProject
@@ -13,13 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrustructure", "Infrustru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{7884E4D5-CB19-4293-9CF2-332F47221B13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Cars.Server.Application", "AM.Cars.Server.Application\AM.Cars.Server.Application.csproj", "{D62C1DA3-561C-4047-9825-69A4D895088B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Cars.Server.Application", "AM.Cars.Server.Application\AM.Cars.Server.Application.csproj", "{D62C1DA3-561C-4047-9825-69A4D895088B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Cars.Server.Domain", "AM.Cars.Server.Domain\AM.Cars.Server.Domain.csproj", "{0FCF7409-0470-47AA-A0F0-AD7BFE21D6CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Cars.Server.Domain", "AM.Cars.Server.Domain\AM.Cars.Server.Domain.csproj", "{0FCF7409-0470-47AA-A0F0-AD7BFE21D6CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Cars.Server.Infrustructure", "AM.Cars.Server.Infrustructure\AM.Cars.Server.Infrustructure.csproj", "{8A660662-EE0D-4785-BF7F-5BE9F008D7BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Cars.Server.Infrustructure", "AM.Cars.Server.Infrustructure\AM.Cars.Server.Infrustructure.csproj", "{8A660662-EE0D-4785-BF7F-5BE9F008D7BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Cars.Server.Infrustructure.Database", "AM.Cars.Server.Infrustructure.Database\AM.Cars.Server.Infrustructure.Database.csproj", "{70F48B4D-A5B0-4E75-BF85-9DD92A654781}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Cars.Server.Infrustructure.Database", "AM.Cars.Server.Infrustructure.Database\AM.Cars.Server.Infrustructure.Database.csproj", "{70F48B4D-A5B0-4E75-BF85-9DD92A654781}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1C248872-1C10-474B-8B3F-65525619CFC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{70F48B4D-A5B0-4E75-BF85-9DD92A654781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70F48B4D-A5B0-4E75-BF85-9DD92A654781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70F48B4D-A5B0-4E75-BF85-9DD92A654781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C248872-1C10-474B-8B3F-65525619CFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C248872-1C10-474B-8B3F-65525619CFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C248872-1C10-474B-8B3F-65525619CFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C248872-1C10-474B-8B3F-65525619CFC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
