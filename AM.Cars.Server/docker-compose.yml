@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-server
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+  am.cars.server:
+    image: ${DOCKER_REGISTRY-}amcars-server
+    build:
+      context: .
+      dockerfile: AM.Cars.Server/Dockerfile
+    ports:
+      - "5000:80"
+      - "5001:443"
+    restart: always
+    environment:
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      ASPNETCORE_HTTPS_PORT: 443
+      MSSQL_SERVER: mssql-server
+      MSSQL_DATABASE: AM.Cars
+      MSSQL_USER: sa
+      MSSQL_PASSWORD: ${MSSQL_SA_PASSWORD}
+      VOLUME_PATH: /var/images
+    depends_on:
+      - mssql-server
+    user: "root:root"
+    volumes:
+      - image:/var/images
+
+volumes:
+  image:
+    driver: local
+  mssql-data:
+    driver: local
