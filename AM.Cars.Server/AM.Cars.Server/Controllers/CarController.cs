@@ -1,4 +1,5 @@
 ﻿using AM.Cars.Server.Infrustructure.Dtos;
+using AM.Cars.Server.Infrustructure.Requests;
 using AM.Cars.Server.Infrustructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,30 +41,30 @@ public class CarController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCar([FromBody] CarPostDto car)
+    public async Task<IActionResult> CreateCar([FromBody]CreateRequest createRequest)
     {
-        await _carService.CreateAsync(car);
+        await _carService.CreateAsync(createRequest.Car);
 
         return Created();
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateCar([FromBody] CarDto car)
+    public async Task<IActionResult> UpdateCar([FromBody] UpdateRequest updateRequest)
     {
-        await _carService.UpdateAsync(car);
-
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCar(long id)
-    {
-        await _carService.DeleteAsync(id);
+        await _carService.UpdateAsync(updateRequest.Car);
 
         return NoContent();
     }
 
     [HttpDelete]
+    public async Task<IActionResult> DeleteCar([FromBody]DeleteRequest deleteRequest)
+    {
+        await _carService.DeleteAsync(deleteRequest.Id);
+
+        return NoContent();
+    }
+
+    [HttpDelete("delete-batch")]
     public async Task<IActionResult> DeleteCars(IEnumerable<long> ids)
     {
         await _carService.DeleteAsync(ids);
