@@ -1,0 +1,28 @@
+﻿<Window x:Class="AM.Cars.Client.Views.CarFormView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewmodels="clr-namespace:AM.Cars.Client.ViewModels"
+        xmlns:local="clr-namespace:AM.Cars.Client"
+        Title="Car Form" SizeToContent="WidthAndHeight"
+        Background="#FAFAFA"
+        FontFamily="Segoe UI">
+    <StackPanel Margin="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Name" VerticalAlignment="Center" />
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding CarModel.Name, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+        <Button Content="Load Image" Click="LoadImageButton_Click" Margin="10"/>
+        <Image x:Name="ImageControl"
+                Source="{Binding CarModel.ImageControl, Converter={StaticResource ImageToImageSourceConverter}, UpdateSourceTrigger=PropertyChanged}"
+                Width="200"
+                Height="200"
+                Stretch="Uniform"
+                HorizontalAlignment="Center"/>
+        <Button Content="Save" HorizontalAlignment="Center" Margin="10" 
+                Command="{Binding SaveCommand}" CommandParameter="{Binding CarModel}"/>
+    </StackPanel>
+</Window>
