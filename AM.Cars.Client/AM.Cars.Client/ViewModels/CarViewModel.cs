@@ -5,7 +5,6 @@ namespace AM.Cars.Client.ViewModels;
 
 public class CarViewModel : INotifyPropertyChanged
 {
-
     public event PropertyChangedEventHandler PropertyChanged;
 
     private bool _isSelected;
