@@ -2,18 +2,18 @@
 
 namespace AM.Cars.Client.Commands;
 
-public class UpdateCommand : ICommand
+public class DeleteCheckedCommand : ICommand
 {
     public event EventHandler CanExecuteChanged;
 
-    private readonly Action<object> _execute;
+    private readonly Action _execute;
 
-    public UpdateCommand(Action<object> execute) => _execute = execute;
+    public DeleteCheckedCommand(Action execute) => _execute = execute;
 
     public bool CanExecute(object parameter) => true;
 
     public void Execute(object parameter)
     {
-        _execute(parameter);
+        _execute();
     }
 }

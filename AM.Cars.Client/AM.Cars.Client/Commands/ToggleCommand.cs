@@ -2,13 +2,13 @@
 
 namespace AM.Cars.Client.Commands;
 
-public class UpdateCommand : ICommand
+public class ToggleCommand : ICommand
 {
     public event EventHandler CanExecuteChanged;
 
     private readonly Action<object> _execute;
 
-    public UpdateCommand(Action<object> execute) => _execute = execute;
+    public ToggleCommand(Action<object> execute) => _execute = execute;
 
     public bool CanExecute(object parameter) => true;
 

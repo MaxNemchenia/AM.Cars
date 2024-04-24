@@ -1,8 +1,6 @@
 ﻿using AM.Cars.Client.Application.ApiAdapters.Interfaces;
-using AM.Cars.Client.Domain.Models;
 using AM.Cars.Client.Infrustructure.Converters.Interfaces;
 using AM.Cars.Client.ViewModels;
-using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace AM.Cars.Client.Views;
@@ -32,11 +30,15 @@ public partial class CarListView : Window
     {
         try
         {
-            var cars = await _apiAdapter.Get();
-            _viewModel.Cars = new ObservableCollection<Car>(cars);
+            await _viewModel.Initialize();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            MessageBox.Show(
+                $"An error occurred while loading the page: {ex.Message}",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
 
         DataContext = _viewModel;
