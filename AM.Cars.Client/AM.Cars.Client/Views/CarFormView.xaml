@@ -46,11 +46,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Name" VerticalAlignment="Center" />
-            <TextBox Grid.Column="1" Text="{Binding CarModel.Name, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Button Content="Load Image" Click="LoadImageButton_Click"/>
         <Image x:Name="ImageControl"
-                Source="{Binding CarModel.ImageControl, Converter={StaticResource ImageToImageSourceConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                Source="{Binding ImageControl, Converter={StaticResource ImageToImageSourceConverter}, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Content="Save" HorizontalAlignment="Center" 
                 Command="{Binding SaveCommand}" CommandParameter="{Binding CarModel}"/>
     </StackPanel>

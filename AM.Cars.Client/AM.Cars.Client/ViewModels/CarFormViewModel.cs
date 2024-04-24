@@ -2,9 +2,9 @@
 using AM.Cars.Client.Commands;
 using AM.Cars.Client.Domain.Models;
 using AM.Cars.Client.Infrustructure.Converters.Interfaces;
-using AM.Cars.Client.Models;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace AM.Cars.Client.ViewModels;
@@ -19,15 +19,29 @@ public class CarFormViewModel : INotifyPropertyChanged
 
     private readonly IImageConverter _imageConverter;
 
-    private CarModel _carModel;
+    private string _name;
 
-    public CarModel CarModel
+    private Image _imageControl;
+
+    public long Id { get; set; }
+
+    public string Name
     {
-        get { return _carModel; }
+        get { return _name; }
         set
         {
-            _carModel = value;
-            OnPropertyChanged(nameof(CarModel));
+            _name = value;
+            OnPropertyChanged(nameof(Name));
+        }
+    }
+
+    public Image ImageControl
+    {
+        get { return _imageControl; }
+        set
+        {
+            _imageControl = value;
+            OnPropertyChanged(nameof(ImageControl));
         }
     }
 
@@ -36,13 +50,13 @@ public class CarFormViewModel : INotifyPropertyChanged
     public CarFormViewModel(
         ICarApiAdapter apiAdapter,
         IImageConverter imageConverter,
-        Car car = default)
+        CarViewModel car = default)
     {
         _apiAdapter = apiAdapter;
         _imageConverter = imageConverter;
 
         SaveCommand = new SaveCommand(SaveCommandExecute);
-        CarModel = car == default ? new CarModel() : CreateCarModel(car);
+        Initialize(car);
     }
 
     protected void OnPropertyChanged(string propertyName)
@@ -55,20 +69,15 @@ public class CarFormViewModel : INotifyPropertyChanged
         SaveSuccessful?.Invoke(this, EventArgs.Empty);
     }
 
-    private async Task SaveCommandExecute(object parameter)
+    private async Task SaveCommandExecute()
     {
-        if (parameter is not CarModel carModel)
-        {
-            return;
-        }
-
         try
         {
             var car = new Car()
             {
-                Id = carModel.Id,
-                Name = carModel.Name,
-                Image = _imageConverter.ImageToBase64String(carModel.ImageControl),
+                Id = Id,
+                Name = Name,
+                Image = _imageConverter.ImageToBase64String(ImageControl),
             };
 
             if (car.Id == 0)
@@ -92,11 +101,15 @@ public class CarFormViewModel : INotifyPropertyChanged
         OnSaveSuccessful();
     }
 
-    private CarModel CreateCarModel(Car car)
-        => new()
+    private void Initialize(CarViewModel carViewModel)
+    {
+        if (carViewModel == default)
         {
-            Id = car.Id,
-            Name = car.Name,
-            ImageControl = _imageConverter.Base64StringToImage(car.Image),
-        };
+            return;
+        }
+
+        Id = carViewModel.Car.Id;
+        Name = carViewModel.Car.Name;
+        ImageControl = _imageConverter.Base64StringToImage(carViewModel.Car.Image); 
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using AM.Cars.Client.Application.ApiAdapters.Interfaces;
-using AM.Cars.Client.Domain.Models;
 using AM.Cars.Client.Infrustructure.Converters.Interfaces;
 using AM.Cars.Client.ViewModels;
 using Microsoft.Win32;
@@ -15,7 +14,7 @@ public partial class CarFormView : Window
 {
     private readonly CarFormViewModel _viewModel;
 
-    public CarFormView(ICarApiAdapter adapter, IImageConverter imageConverter, Car car = default)
+    public CarFormView(ICarApiAdapter adapter, IImageConverter imageConverter, CarViewModel car = default)
     {
         _viewModel = new CarFormViewModel(adapter, imageConverter, car);
         DataContext = _viewModel;
@@ -43,7 +42,7 @@ public partial class CarFormView : Window
 
                 var bitmap = new BitmapImage(new Uri(imagePath));
                 ImageControl.Source = bitmap;
-                _viewModel.CarModel.ImageControl = ImageControl;
+                _viewModel.ImageControl = ImageControl;
             }
         }
         catch (Exception ex)

@@ -1,6 +1,5 @@
 ﻿using AM.Cars.Client.Application.ApiAdapters.Interfaces;
 using AM.Cars.Client.Commands;
-using AM.Cars.Client.Domain.Models;
 using AM.Cars.Client.Infrustructure.Converters.Interfaces;
 using AM.Cars.Client.Views;
 using System.Collections.ObjectModel;
@@ -18,17 +17,17 @@ public class CarListViewModel : INotifyPropertyChanged
 
     private readonly IImageConverter _imageConverter;
 
-    private ObservableCollection<Car> _cars;
+    private ObservableCollection<CarViewModel> _carViewModels;
 
     private bool _isAllSelected;
 
-    public ObservableCollection<Car> Cars
+    public ObservableCollection<CarViewModel> CarViewModels
     {
-        get => _cars;
+        get => _carViewModels;
         set
         {
-            _cars = value;
-            OnPropertyChanged(nameof(Cars));
+            _carViewModels = value;
+            OnPropertyChanged(nameof(CarViewModels));
         }
     }
 
@@ -42,7 +41,7 @@ public class CarListViewModel : INotifyPropertyChanged
         }
     }
 
-    public ICollection<long> SelectedCars { get; set; }
+    public ICollection<long> SelectedCarIds { get; set; }
 
     public ICommand CreateCommand { get; private set; }
 
@@ -70,13 +69,14 @@ public class CarListViewModel : INotifyPropertyChanged
         ToggleCommand = new ToggleCommand(ToggleCommandExecute);
         ToggleAllCommand = new ToggleAllCommand(ToggleAllCommandExecute);
 
-        SelectedCars = new List<long>();
+        SelectedCarIds = new List<long>();
     }
 
     public async Task Initialize()
     {
         var cars = await _apiAdapter.GetAsync();
-        Cars = new ObservableCollection<Car>(cars);
+        var carViewModels = cars.Select(car => new CarViewModel() { Car =  car });
+        CarViewModels = new ObservableCollection<CarViewModel>(carViewModels);
     }
 
     protected virtual void OnPropertyChanged(string propertyName)
@@ -88,9 +88,9 @@ public class CarListViewModel : INotifyPropertyChanged
     {
         try
         {
-            if (parameter is Car selectedCar)
+            if (parameter is CarViewModel selectedCar)
             {
-                await _apiAdapter.DeleteAsync(selectedCar.Id);
+                await _apiAdapter.DeleteAsync(selectedCar.Car.Id);
                 await Initialize();
             }
         }
@@ -108,7 +108,7 @@ public class CarListViewModel : INotifyPropertyChanged
     {
         try
         {
-            await _apiAdapter.DeleteCheckedAsync(SelectedCars);
+            await _apiAdapter.DeleteCheckedAsync(SelectedCarIds);
             await Initialize();
         }
         catch (Exception ex)
@@ -123,36 +123,35 @@ public class CarListViewModel : INotifyPropertyChanged
 
     private void ToggleCommandExecute(object parameter)
     {
-        if (parameter is not Car selectedCar)
+        if (parameter is not CarViewModel selectedCar)
         {
             return;
         }
 
-        if (SelectedCars.Contains(selectedCar.Id))
+        if (SelectedCarIds.Contains(selectedCar.Car.Id))
         {
-            SelectedCars.Remove(selectedCar.Id);
+            SelectedCarIds.Remove(selectedCar.Car.Id);
         }
         else
         {
-            SelectedCars.Add(selectedCar.Id);
+            SelectedCarIds.Add(selectedCar.Car.Id);
         }
 
-        IsAllSelected = Cars.All(t => t.IsSelected);
+        IsAllSelected = CarViewModels.All(t => t.IsSelected);
     }  
 
     private void ToggleAllCommandExecute()
     {
         if (IsAllSelected)
         {
-            SelectedCars = Cars.Select(t => t.Id).ToList();
-            Cars.First().IsSelected = true;
+            SelectedCarIds = CarViewModels.Select(t => t.Car.Id).ToList();
         }
         else
         {
-            SelectedCars.Clear();
+            SelectedCarIds.Clear();
         }
 
-        foreach (var car in Cars)
+        foreach (var car in CarViewModels)
         {
             car.IsSelected = IsAllSelected;
         }
@@ -165,13 +164,13 @@ public class CarListViewModel : INotifyPropertyChanged
 
     private void UpdateCommandExecute(object parameter)
     {
-        if (parameter is Car selectedCar)
+        if (parameter is CarViewModel selectedCar)
         {
             ShowSaveForm(selectedCar);
         }
     }
 
-    private void ShowSaveForm(Car selectedCar = default)
+    private void ShowSaveForm(CarViewModel selectedCar = default)
     {
         var saveForm = new CarFormView(_apiAdapter, _imageConverter, selectedCar);
         saveForm.Closed += async (s, args) => await CreateWindow_Closed(s, args);

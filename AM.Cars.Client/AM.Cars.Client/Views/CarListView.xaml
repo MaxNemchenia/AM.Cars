@@ -58,7 +58,7 @@
                   BorderThickness="1" 
                   MinHeight="200"
                   MinWidth="400" 
-                  ItemsSource="{Binding Cars}" 
+                  ItemsSource="{Binding CarViewModels}" 
                   SelectedItem="{Binding SelectedCar, Mode=TwoWay}" 
                   x:Name="carList">
             <ListView.ItemContainerStyle>
@@ -89,7 +89,7 @@
                         <GridViewColumnHeader>Name</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" Margin="5"/>
+                                <TextBlock Text="{Binding Car.Name}" Margin="5"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -97,7 +97,7 @@
                         <GridViewColumnHeader>Image</GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Image, Converter={StaticResource Base64ToImageConverter}}"
+                                <Image Source="{Binding Car.Image, Converter={StaticResource Base64ToImageConverter}}"
                                        Width="200"
                                        Height="140"
                                        Stretch="Uniform"
