@@ -81,7 +81,7 @@ public class CarService : ICarService
     public async Task UpdateAsync(CarDto carDto)
     {
         var car = _mapper.Map<Car>(carDto);
-        var oldCar = await _carRepository.ReadAsNoTrackingAsync(car.Id);
+        var oldCar = await _carRepository.ReadAsync(car.Id);
 
         if (oldCar == default)
         {
