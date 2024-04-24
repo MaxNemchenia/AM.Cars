@@ -55,7 +55,7 @@ public class CarFormViewModel : INotifyPropertyChanged
         SaveSuccessful?.Invoke(this, EventArgs.Empty);
     }
 
-    private void SaveCommandExecute(object parameter)
+    private async Task SaveCommandExecute(object parameter)
     {
         if (parameter is not CarModel carModel)
         {
@@ -73,11 +73,11 @@ public class CarFormViewModel : INotifyPropertyChanged
 
             if (car.Id == 0)
             {
-                _apiAdapter.Create(car);
+                await _apiAdapter.CreateAsync(car);
             }
             else
             {
-                _apiAdapter.Update(car);
+                await _apiAdapter.UpdateAsync(car);
             }
         }
         catch (Exception ex)

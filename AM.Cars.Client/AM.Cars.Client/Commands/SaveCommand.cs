@@ -6,14 +6,14 @@ public class SaveCommand : ICommand
 {
     public event EventHandler CanExecuteChanged;
 
-    private readonly Action<object> _execute;
+    private readonly Func<object, Task> _execute;
 
-    public SaveCommand(Action<object> execute) => _execute = execute;
+    public SaveCommand(Func<object, Task> execute) => _execute = execute;
 
     public bool CanExecute(object parameter) => true;
 
-    public void Execute(object parameter)
+    public async void Execute(object parameter)
     {
-        _execute(parameter);
+        await _execute(parameter);
     }
 }
