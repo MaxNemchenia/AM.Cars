@@ -22,7 +22,7 @@ public abstract class BaseHandler<TRequest, TResult> : IRequestHandler<TRequest,
     
     protected string BaseUrl { get; }
 
-    protected Uri Url => new((_apiOptions.Url ?? "https://localhost:5001/").TrimEnd('/') + GetEndpoint);
+    protected Uri Url => new(_apiOptions.Url.TrimEnd('/') + GetEndpoint);
 
     protected virtual string GetEndpoint => "/car";
 

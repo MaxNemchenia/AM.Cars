@@ -22,6 +22,6 @@ public static class ServiceProviderX
 
     public static void AddOptions(this IServiceCollection services, IConfiguration configuration )
     {
-        services.Configure<ApiOptions>(configuration.GetSection(typeof(ApiOptions).Name));
+        services.Configure<ApiOptions>(configuration.GetSection(nameof(ApiOptions)));
     }
 }

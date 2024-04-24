@@ -22,7 +22,7 @@ public partial class App : System.Windows.Application
     {
         var builder = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
-             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
         var configuration = builder.Build();
 
         RegisterConverters();
