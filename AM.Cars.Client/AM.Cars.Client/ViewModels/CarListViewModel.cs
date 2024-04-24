@@ -75,7 +75,7 @@ public class CarListViewModel : INotifyPropertyChanged
 
     public async Task Initialize()
     {
-        var cars = await _apiAdapter.Get().ConfigureAwait(true);
+        var cars = await _apiAdapter.GetAsync();
         Cars = new ObservableCollection<Car>(cars);
     }
 
@@ -90,7 +90,7 @@ public class CarListViewModel : INotifyPropertyChanged
         {
             if (parameter is Car selectedCar)
             {
-                await _apiAdapter.Delete(selectedCar.Id).ConfigureAwait(true);
+                await _apiAdapter.DeleteAsync(selectedCar.Id);
                 await Initialize();
             }
         }
@@ -108,7 +108,7 @@ public class CarListViewModel : INotifyPropertyChanged
     {
         try
         {
-            await _apiAdapter.DeleteChecked(SelectedCars).ConfigureAwait(true);
+            await _apiAdapter.DeleteCheckedAsync(SelectedCars);
             await Initialize();
         }
         catch (Exception ex)

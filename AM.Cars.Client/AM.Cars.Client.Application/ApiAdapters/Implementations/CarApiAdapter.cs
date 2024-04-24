@@ -14,26 +14,26 @@ public class CarApiAdapter : ICarApiAdapter
         => _mediator = mediator;
 
     /// <inheritdoc />
-    public Task<IEnumerable<Car>> Get()
+    public Task<IEnumerable<Car>> GetAsync()
         => _mediator.Send(new GetQuery());
 
     /// <inheritdoc />
-    public Task Create(Car car)
+    public Task CreateAsync(Car car)
         => _mediator.Send(new CreateCommand {  Car = car });
 
     /// <inheritdoc />
-    public Task Update(Car car)
+    public Task UpdateAsync(Car car)
         => _mediator.Send(new UpdateCommand {  Car = car });
 
     /// <inheritdoc />
-    public async Task Delete(long id)
+    public async Task DeleteAsync(long id)
     {
         var command = new DeleteCommand { Id = id };
         await _mediator.Send(command);
     }
 
     /// <inheritdoc />
-    public async Task DeleteChecked(IEnumerable<long> ids)
+    public async Task DeleteCheckedAsync(IEnumerable<long> ids)
     {
         var command = new DeleteCheckedCommand { Ids = ids };
         await _mediator.Send(command);

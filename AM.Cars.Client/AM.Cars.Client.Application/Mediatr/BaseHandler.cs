@@ -44,7 +44,7 @@ public abstract class BaseHandler<TRequest, TResult> : IRequestHandler<TRequest,
             HttpCompletionOption.ResponseHeadersRead,
             cancellationToken);
 
-        using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+        using var stream = await response.Content.ReadAsStreamAsync();
 
         if (!response.IsSuccessStatusCode)
         {
