@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace AM.Cars.Client.Application.Mediatr.QueryHandlers;
 
-public class GetByIdQueryHandler : BaseQueryHandler<GetByIdQuery, IEnumerable<Car>>
+public class GetByIdQueryHandler : BaseQueryHandler<GetByIdQuery, Car>
 {
     public GetByIdQueryHandler(IHttpMessageBuilder httpMessageBuilder, IOptions<ApiOptions> apiOptions)
         : base(httpMessageBuilder, apiOptions)

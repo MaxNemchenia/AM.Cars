@@ -31,4 +31,11 @@ public class CarApiAdapter : ICarApiAdapter
         var command = new DeleteCommand { Id = id };
         await _mediator.Send(command);
     }
+
+    /// <inheritdoc />
+    public async Task DeleteChecked(IEnumerable<long> ids)
+    {
+        var command = new DeleteCheckedCommand { Ids = ids };
+        await _mediator.Send(command);
+    }
 }

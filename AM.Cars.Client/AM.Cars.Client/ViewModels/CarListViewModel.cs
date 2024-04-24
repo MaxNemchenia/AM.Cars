@@ -5,6 +5,7 @@ using AM.Cars.Client.Infrustructure.Converters.Interfaces;
 using AM.Cars.Client.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AM.Cars.Client.ViewModels;
@@ -19,6 +20,8 @@ public class CarListViewModel : INotifyPropertyChanged
 
     private ObservableCollection<Car> _cars;
 
+    private bool _isAllSelected;
+
     public ObservableCollection<Car> Cars
     {
         get => _cars;
@@ -29,11 +32,29 @@ public class CarListViewModel : INotifyPropertyChanged
         }
     }
 
+    public bool IsAllSelected
+    {
+        get => _isAllSelected;
+        set
+        {
+            _isAllSelected = value;
+            OnPropertyChanged(nameof(IsAllSelected));
+        }
+    }
+
+    public ICollection<long> SelectedCars { get; set; }
+
     public ICommand CreateCommand { get; private set; }
 
     public ICommand UpdateCommand { get; private set; }
 
     public ICommand DeleteCommand { get; private set; }
+
+    public ICommand DeleteCheckedCommand { get; private set; }
+
+    public ICommand ToggleCommand { get; private set; }
+
+    public ICommand ToggleAllCommand { get; private set; }
 
     public CarListViewModel() { }
 
@@ -42,11 +63,20 @@ public class CarListViewModel : INotifyPropertyChanged
         _apiAdapter = apiAdapter;
         _imageConverter = imageConverter;
 
-        _selectedCars = new ObservableCollection<Car>();
-
         CreateCommand = new CreateCommand(CreateCommandExecute);
         UpdateCommand = new UpdateCommand(UpdateCommandExecute);
         DeleteCommand = new DeleteCommand(DeleteCommandExecute);
+        DeleteCheckedCommand = new DeleteCheckedCommand(DeleteCheckedCommandExecute);
+        ToggleCommand = new ToggleCommand(ToggleCommandExecute);
+        ToggleAllCommand = new ToggleAllCommand(ToggleAllCommandExecute);
+
+        SelectedCars = new List<long>();
+    }
+
+    public async Task Initialize()
+    {
+        var cars = await _apiAdapter.Get().ConfigureAwait(true);
+        Cars = new ObservableCollection<Car>(cars);
     }
 
     protected virtual void OnPropertyChanged(string propertyName)
@@ -61,13 +91,70 @@ public class CarListViewModel : INotifyPropertyChanged
             if (parameter is Car selectedCar)
             {
                 await _apiAdapter.Delete(selectedCar.Id).ConfigureAwait(true);
-
-                var cars = await _apiAdapter.Get().ConfigureAwait(true);
-                Cars = new ObservableCollection<Car>(cars);
+                await Initialize();
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            MessageBox.Show(
+                $"An error occurred while deleting car: {ex.Message}",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private async void DeleteCheckedCommandExecute()
+    {
+        try
+        {
+            await _apiAdapter.DeleteChecked(SelectedCars).ConfigureAwait(true);
+            await Initialize();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"An error occurred while deleting car: {ex.Message}",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    private void ToggleCommandExecute(object parameter)
+    {
+        if (parameter is not Car selectedCar)
+        {
+            return;
+        }
+
+        if (SelectedCars.Contains(selectedCar.Id))
+        {
+            SelectedCars.Remove(selectedCar.Id);
+        }
+        else
+        {
+            SelectedCars.Add(selectedCar.Id);
+        }
+
+        IsAllSelected = Cars.All(t => t.IsSelected);
+    }  
+
+    private void ToggleAllCommandExecute()
+    {
+        if (IsAllSelected)
+        {
+            SelectedCars = Cars.Select(t => t.Id).ToList();
+            Cars.First().IsSelected = true;
+        }
+        else
+        {
+            SelectedCars.Clear();
+        }
+
+        foreach (var car in Cars)
+        {
+            car.IsSelected = IsAllSelected;
         }
     }
 
@@ -95,11 +182,15 @@ public class CarListViewModel : INotifyPropertyChanged
     {
         try
         {
-            var cars = await _apiAdapter.Get().ConfigureAwait(true);
-            Cars = new ObservableCollection<Car>(cars);
+            await Initialize();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            MessageBox.Show(
+                $"An error occurred while getting car: {ex.Message}",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 }

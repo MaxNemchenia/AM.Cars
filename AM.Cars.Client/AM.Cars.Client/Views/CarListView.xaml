@@ -14,6 +14,7 @@
                     Command="{Binding DataContext.CreateCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                     Margin="5"/>
             <Button Content="Delete"
+                    Command="{Binding DataContext.DeleteCheckedCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                     Margin="5" Background="Red" 
                     Foreground="White"/>
         </StackPanel>
@@ -37,12 +38,17 @@
                     <GridViewColumn Width="Auto">
                         <GridViewColumnHeader>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsAllSelected, Mode=TwoWay}" Margin="5"/>
+                                <CheckBox IsChecked="{Binding IsAllSelected, Mode=TwoWay}"
+                                          Command="{Binding DataContext.ToggleAllCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                          Margin="5"/>
                             </StackPanel>
                         </GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5"/>
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                          Command="{Binding DataContext.ToggleCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                          CommandParameter="{Binding}"
+                                          Margin="5"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -4,6 +4,7 @@ using AM.Cars.Client.Domain.Models;
 using AM.Cars.Client.Infrustructure.Converters.Interfaces;
 using AM.Cars.Client.Models;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AM.Cars.Client.ViewModels;
@@ -56,7 +57,12 @@ public class CarFormViewModel : INotifyPropertyChanged
 
     private void SaveCommandExecute(object parameter)
     {
-        if (parameter is CarModel carModel)
+        if (parameter is not CarModel carModel)
+        {
+            return;
+        }
+
+        try
         {
             var car = new Car()
             {
@@ -73,6 +79,14 @@ public class CarFormViewModel : INotifyPropertyChanged
             {
                 _apiAdapter.Update(car);
             }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"An error occurred while save car: {ex.Message}",
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
 
         OnSaveSuccessful();

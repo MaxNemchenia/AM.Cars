@@ -24,7 +24,7 @@ public abstract class BaseHandler<TRequest, TResult> : IRequestHandler<TRequest,
 
     protected Uri Url => new((_apiOptions.Url ?? "https://localhost:5001/").TrimEnd('/') + GetEndpoint);
 
-    protected virtual string GetEndpoint => "/Car";
+    protected virtual string GetEndpoint => "/car";
 
     protected abstract HttpMethod HttpMethod { get; }
 
