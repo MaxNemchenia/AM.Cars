@@ -24,6 +24,8 @@ services:
     environment:
       ASPNETCORE_URLS: https://+:443;http://+:80
       ASPNETCORE_HTTPS_PORT: 443
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/am_cert.pfx
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${SSL_CERTIFICATE_PASSWORD}
       MSSQL_SERVER: mssql-server
       MSSQL_DATABASE: AM.Cars
       MSSQL_USER: sa
@@ -34,6 +36,7 @@ services:
     user: "root:root"
     volumes:
       - image:/var/images
+      - ./Certificates:/etc/ssl/certs
 
 volumes:
   image:

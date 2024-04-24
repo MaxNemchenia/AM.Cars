@@ -1,4 +1,5 @@
 ﻿using AM.Cars.Server.Infrustructure.Dtos;
+using AM.Cars.Server.Infrustructure.Requests;
 using AM.Cars.Server.Infrustructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +19,6 @@ public class CarController : ControllerBase
     {
         var cars = await _carService.GetAllAsync();
 
-        if (!cars.Any())
-        {
-            return NotFound();
-        }
-
         return Ok(cars);
     }
 
@@ -31,7 +27,7 @@ public class CarController : ControllerBase
     {
         var car = await _carService.GetAsync(id);
 
-        if(car == default)
+        if (car == default)
         {
             return NotFound();
         }
@@ -40,33 +36,33 @@ public class CarController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCar([FromBody] CarPostDto car)
+    public async Task<IActionResult> CreateCar([FromBody] CreateRequest createRequest)
     {
-        await _carService.CreateAsync(car);
+        await _carService.CreateAsync(createRequest.Car);
 
         return Created();
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateCar([FromBody] CarDto car)
+    public async Task<IActionResult> UpdateCar([FromBody] UpdateRequest updateRequest)
     {
-        await _carService.UpdateAsync(car);
-
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCar(long id)
-    {
-        await _carService.DeleteAsync(id);
+        await _carService.UpdateAsync(updateRequest.Car);
 
         return NoContent();
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteCars(IEnumerable<long> ids)
+    public async Task<IActionResult> DeleteCar([FromBody] DeleteRequest deleteRequest)
     {
-        await _carService.DeleteAsync(ids);
+        await _carService.DeleteAsync(deleteRequest.Id);
+
+        return NoContent();
+    }
+
+    [HttpDelete("delete-checked")]
+    public async Task<IActionResult> DeleteCars(DeleteCheckedRequest deleteCheckedRequest)
+    {
+        await _carService.DeleteAsync(deleteCheckedRequest.Ids);
 
         return NoContent();
     }
