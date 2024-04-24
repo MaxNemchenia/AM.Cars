@@ -15,4 +15,7 @@ public class DeleteCheckedCommandHandler : BaseHandler<DeleteCheckedCommand, Uni
 
     /// <inheritdoc />
     protected override HttpMethod HttpMethod => HttpMethod.Delete;
+
+    /// <inheritdoc />
+    protected override string GetEndpoint => "/car/delete-checked";
 }
